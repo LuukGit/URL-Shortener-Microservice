@@ -22,15 +22,8 @@ app.get("/:short", function(req, res) {
             short_url: short_url
         }).toArray(function(err, documents) {
             if (err) { throw err; }
-            if (documents !== [])
-            {
-                original_url = documents[0].original_url;
-                res.redirect(original_url);   
-            }
-            else
-            {
-                res.send({error: "Invalid URL"});
-            }
+            original_url = documents[0].original_url;
+            res.redirect(original_url);   
             db.close();
         });
     });
