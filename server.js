@@ -32,6 +32,7 @@ app.get("/:query", function(req, res) {
             short_url: short_url
         }).toArray(function(err, documents) {
             if (err) { throw err; }
+            console.log(documents);
             original_url = documents[0].original_url;
             res.redirect(original_url);
             db.close();
@@ -40,9 +41,7 @@ app.get("/:query", function(req, res) {
 });
 
 app.get("/new/:query*", function(req, res) {
-    var original_url = req.params.query;
-    console.log(req.param);
-    
+    var original_url = req.url.replace("/new/", "");
     // Make sure the URL has the right format ("http://www.example.com"), as specified in the FCC instruction video. 
     // Add missing http// or https//. 
     if (original_url.slice(0, 6) !== "http://" && original_url.slice(0, 7) !== "https://")
