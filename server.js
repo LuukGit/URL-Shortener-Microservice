@@ -15,18 +15,20 @@ var mongo = require("mongodb").MongoClient;
 
 var app = express();
 var server = http.createServer(app);
+
 var URL = "https://luuk-url-shortener-ms.herokuapp.com/";
+var mongoURL = "mongodb://client:client@ds013579.mlab.com:13579/freecodecamp-database";
 
 app.use(express.static(path.resolve(__dirname, "client")));
 
 app.get("/:query", function(req, res) {
     var short_url = URL + req.params.query;
     // Search the database for the original_url using the short_url.
-    mongo.connect("mongodb://" + process.env.IP + "/url_shortener_microservice", function(err, db) {
+    mongo.connect(mongoURL, function(err, db) {
         if (err) { throw err; }
         var original_url = "";
         
-        db.collection("url").find({
+        db.collection("url-pairs").find({
             short_url: short_url
         }).toArray(function(err, documents) {
             if (err) { throw err; }
@@ -51,9 +53,9 @@ app.get("/new/:query", function(req, res) {
     if (original_url.match(/\w\.\w/g))
     { 
       // Create the new short_url and add it to the database.  
-      mongo.connect("mongodb://" + process.env.IP + "/url_shortener_microservice", function(err, db) {
+      mongo.connect(mongoURL, function(err, db) {
         if (err) { throw err; } 
-        var collection = db.collection("url");
+        var collection = db.collection("url-pairs");
         var count = 0;
         var short_url = "";
         
