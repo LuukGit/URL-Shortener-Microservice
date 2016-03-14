@@ -15,12 +15,12 @@ var mongo = require("mongodb").MongoClient;
 
 var app = express();
 var server = http.createServer(app);
-var URL = "https://luuk-url-shortener-ms.herokuapp.com";
+var URL = "https://luuk-url-shortener-ms.herokuapp.com/";
 
 app.use(express.static(path.resolve(__dirname, "client")));
 
 app.get("/:query", function(req, res) {
-    var short_url = URL + req.url;
+    var short_url = URL + req.params.query;
     // Search the database for the original_url using the short_url.
     mongo.connect("mongodb://" + process.env.IP + "/url_shortener_microservice", function(err, db) {
         if (err) { throw err; }
@@ -37,8 +37,9 @@ app.get("/:query", function(req, res) {
     });
 });
 
-app.get(/^\/new\/(.)/, function(req, res) {
-    var original_url = req.url.replace("/new/", "");
+app.get("/new/:query", function(req, res) {
+    var original_url = req.params.query;
+    console.log(req.param);
     
     // Make sure the URL has the right format ("http://www.example.com"), as specified in the FCC instruction video. 
     // Add missing http// or https//. 
@@ -59,7 +60,7 @@ app.get(/^\/new\/(.)/, function(req, res) {
         // Get the number for the new short_url by counting the previous short_url entries.
         collection.count({}, function(err, count) {
             if (err) { throw err; }
-            short_url = URL + "/" + count;
+            short_url = URL + count;
             // Insert the new original/short pair.
             collection.insert({
                 original_url: original_url,
