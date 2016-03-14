@@ -12,7 +12,6 @@ var mongoURL = "mongodb://client:client@ds013579.mlab.com:13579/freecodecamp-dat
 app.use(express.static(path.resolve(__dirname, "client")));
 
 app.get("/:short", function(req, res) {
-    console.log("Start retrieval.");
     var short_url = URL + req.url;
     // Search the database for the original_url using the short_url.
     mongo.connect(mongoURL, function(err, db) {
@@ -23,16 +22,21 @@ app.get("/:short", function(req, res) {
             short_url: short_url
         }).toArray(function(err, documents) {
             if (err) { throw err; }
-            original_url = documents[0].original_url;
-            res.redirect(original_url);
+            if (documents !== [])
+            {
+                original_url = documents[0].original_url;
+                res.redirect(original_url);   
+            }
+            else
+            {
+                res.send({error: "Invalid URL"});
+            }
             db.close();
-            console.log("End retrieval");
         });
     });
 });
 
 app.get("/new/:query*", function(req, res) {
-    console.log("Start inserting.");
     var original_url = req.url.replace("/new/", "");
     // Make sure the URL has the right format ("http://www.example.com"), as specified in the FCC instruction video. 
     // Add missing http// or https//. 
@@ -62,7 +66,6 @@ app.get("/new/:query*", function(req, res) {
                     if (err) { throw err };
                     db.close();
                     res.send({original_url: original_url, short_url: short_url});
-                    console.log("End inserting.");
             });
         });
       });
