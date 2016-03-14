@@ -15,7 +15,7 @@ var mongo = require("mongodb").MongoClient;
 
 var app = express();
 var server = http.createServer(app);
-var URL = "https://url-shortener-microservice-luukgit.c9users.io";
+var URL = "http://luuk-url-shortener-ms.herokuapp.com/";
 
 app.use(express.static(path.resolve(__dirname, "client")));
 
