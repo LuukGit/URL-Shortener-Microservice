@@ -39,7 +39,7 @@ app.get("/:query", function(req, res) {
     });
 });
 
-app.get("/new/:query", function(req, res) {
+app.get("/new/:query*", function(req, res) {
     var original_url = req.params.query;
     console.log(req.param);
     
