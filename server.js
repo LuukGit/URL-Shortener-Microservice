@@ -42,9 +42,10 @@ app.get("/:query", function(req, res) {
 
 app.get("/new/:query*", function(req, res) {
     var original_url = req.url.replace("/new/", "");
+    console.log(original_url);
     // Make sure the URL has the right format ("http://www.example.com"), as specified in the FCC instruction video. 
     // Add missing http// or https//. 
-    if (original_url.slice(0, 6) !== "http://" && original_url.slice(0, 7) !== "https://")
+    if (!original_url.match(/http:\/\//) && !original_url.match(/https:\/\//) )
     {
       original_url = "http://" + original_url;
     }
