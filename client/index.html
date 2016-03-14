@@ -1,13 +1,41 @@
 <!doctype html>
-<html lang="en" ng-app>
-  <head>
-    <title>Chat Example</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
-    
-  </head>
-  <body>
-    
-  </body>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>URL Shortener Microservice</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="header">
+      API Project #3 - URL Shortener Microservice
+    </h1>
+    <blockquote>
+      User stories:
+      <ul><li>I can pass a URL as a parameter and I will receive a shortened URL in the JSON response.</ul>
+      <ul><li>If I pass an invalid URL that doesn't follow the valid http://www.example.com format, the JSON response will contain an error instead.</li></ul>
+      <ul><li>When I visit that shortened URL, it will redirect me to my original link.</ul>
+    </blockquote>
+    <h3>Example creation usage:</h3>
+    <code><a href="https://luuk-url-shortener-ms.herokuapp.com/new/https://www.google.com">https://luuk-url-shortener-ms.herokuapp.com/new/https://www.google.com</a></code>
+    <br>
+    <code><a href="https://luuk-url-shortener-ms.herokuapp.com/new/http://freecodecamp.com/news">https://luuk-url-shortener-ms.herokuapp.com/new/http://freecodecamp.com/news</a></code>
+    <br>If you want to pass a site that doesn't exist (or an invalid url) for some reason you can do:<br>
+    <code><a href="https://luuk-url-shortener-ms.herokuapp.com/new/invalid?allow=true">https://luuk-url-shortener-ms.herokuapp.com/new/invalid?allow=true</a></code>
+    <h3>Example creation output:</h3>
+    <code>
+      {
+        "original_url": "http://freecodecamp.com/news",
+        "short_url": "https://luuk-url-shortener-ms.herokuapp.com/4"
+      }
+    </code>
+    <h3>Usage:</h3>
+    <code><a href="https://luuk-url-shortener-ms.herokuapp.com/4">https://luuk-url-shortener-ms.herokuapp.com/4</a></code>
+    <h3>Will redirect to:</h3>
+    <code><a href="https://luuk-url-shortener-ms.herokuapp.com/news">http://freecodecamp.com/news</a></code>
+  </div>
+</body>
+
 </html>
