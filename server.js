@@ -7,7 +7,7 @@ var app = express();
 var server = http.createServer(app);
 
 var URL = "https://luuk-url-shortener-ms.herokuapp.com";
-var mongoURL = "mongodb://client:client@ds013579.mlab.com:13579/freecodecamp-database";
+var mongoURL = process.env.MONGOLAB_URL;
 
 app.use(express.static(path.resolve(__dirname, "client")));
 
