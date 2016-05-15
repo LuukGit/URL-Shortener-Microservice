@@ -16,15 +16,17 @@ app.get("/:short", function(req, res) {
     // Search the database for the original_url using the short_url.
     mongo.connect(mongoURL, function(err, db) {
         if (err) { throw err; }
-        var original_url = "";
-        
-        db.collection("url-pairs").find({
+        db.collection("url-pairs").findOne({
             short_url: short_url
-        }).toArray(function(err, documents) {
+        }, function(err, document) {
             if (err) { throw err; }
-            original_url = documents[0].original_url;
-            res.redirect(original_url);   
             db.close();
+            if (document) {
+                res.redirect(document.original_url);     
+            }
+            else {
+                res.json({ error: "invalid short URL" });
+            }
         });
     });
 });
@@ -66,7 +68,8 @@ app.get("/new/:query*", function(req, res) {
     else
     {
       res.send({error: "URL invalid"});
-    }   
+    }         
+    
 });
 
 server.listen(process.env.PORT || 3000, process.env.IP || "0.0.0.0", function(){
